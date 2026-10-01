@@ -32,7 +32,7 @@ jobs:
 
       # 3. Run Snyk Code Scan (SAST - Source Code)
       - name: Run Snyk Code Scan
-        continue-on-error: true
+        continue-on-error: false
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         run: snyk code test --org=7fc952bf-8896-46ea-a18a-6d9d91b2dc98 --severity-threshold=medium --report --project-name="ci-demo"
