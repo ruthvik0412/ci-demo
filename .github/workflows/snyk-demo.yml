@@ -19,10 +19,20 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      # 1. Install Snyk CLI globally for custom scan commands
+      - name: Install Snyk CLI
+        uses: snyk/actions/setup@master
+
+      # 2. Run Snyk Open Source Scan (Dependencies)
       - name: Run Snyk Open Source Scan
-        uses: snyk/actions/node@master
         continue-on-error: true
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          args: --org=7fc952bf-8896-46ea-a18a-6d9d91b2dc98 --severity-threshold=medium
+        run: snyk test --org=7fc952bf-8896-46ea-a18a-6d9d91b2dc98 --severity-threshold=medium
+
+      # 3. Run Snyk Code Scan (SAST - Source Code)
+      - name: Run Snyk Code Scan
+        continue-on-error: true
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        run: snyk code test --org=7fc952bf-8896-46ea-a18a-6d9d91b2dc98 --severity-threshold=medium --report
