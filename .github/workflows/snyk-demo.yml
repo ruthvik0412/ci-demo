@@ -36,3 +36,14 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         run: snyk code test --org=7fc952bf-8896-46ea-a18a-6d9d91b2dc98 --severity-threshold=medium --report --project-name="ci-demo"
+
+      # 4. Build Docker Image
+      - name: Build Docker Image
+        run: docker build -t snyk-demo-app:latest .
+
+      # 5. Run Snyk Container Scan (OS & Base Image)
+      - name: Run Snyk Container Scan
+        continue-on-error: true
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        run: snyk container test snyk-demo-app:latest --org=7fc952bf-8896-46ea-a18a-6d9d91b2dc98 --file=Dockerfile --severity-threshold=medium
