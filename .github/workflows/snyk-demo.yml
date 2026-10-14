@@ -25,7 +25,7 @@ jobs:
 
       # 2. Run Snyk Open Source Scan (Dependencies)
       - name: Run Snyk Open Source Scan
-        continue-on-error: true
+        continue-on-error: false
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         run: snyk test --org=7fc952bf-8896-46ea-a18a-6d9d91b2dc98 --severity-threshold=medium
